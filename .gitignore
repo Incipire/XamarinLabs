@@ -325,5 +325,4 @@ __pycache__/
 # tools/**
 # !tools/packages.config
 
-
-# End of https://www.gitignore.io/api/vim,xcode,visualstudio,xamarinstudio
+.DS_Store
