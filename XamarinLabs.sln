@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Incipire.MobileCore", "Lib\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Incipire.Mobile.iOS", "Lib\Incipire.MobileCore\Incipire.Mobile.iOS\Incipire.Mobile.iOS.csproj", "{C0A2F396-0B4F-4F2E-B4D2-2BDE421246A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Incipire.Mobile.Droid", "Lib\Incipire.MobileCore\Incipire.Mobile.Android\Incipire.Mobile.Droid.csproj", "{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,9 +99,22 @@ Global
 		{C0A2F396-0B4F-4F2E-B4D2-2BDE421246A8}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{C0A2F396-0B4F-4F2E-B4D2-2BDE421246A8}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{C0A2F396-0B4F-4F2E-B4D2-2BDE421246A8}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Release|iPhone.Build.0 = Release|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4E315016-3986-41DD-B3EE-6C25F9AE2179} = {00349570-7E21-4444-8F80-4F23E8190B14}
 		{C0A2F396-0B4F-4F2E-B4D2-2BDE421246A8} = {00349570-7E21-4444-8F80-4F23E8190B14}
+		{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1} = {00349570-7E21-4444-8F80-4F23E8190B14}
 	EndGlobalSection
 EndGlobal

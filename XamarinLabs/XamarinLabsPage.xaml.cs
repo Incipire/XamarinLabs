@@ -7,6 +7,7 @@ namespace XamarinLabs
         public XamarinLabsPage()
         {
             InitializeComponent();
+            ellipse.RotateTo(360, 2000);
         }
     }
 }

@@ -87,6 +87,14 @@
       <Project>{21408F89-64F1-41BA-85BF-C86CCB5C68AB}</Project>
       <Name>XamarinLabs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lib\Incipire.MobileCore\Incipire.MobileCore.csproj">
+      <Project>{4E315016-3986-41DD-B3EE-6C25F9AE2179}</Project>
+      <Name>Incipire.MobileCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lib\Incipire.MobileCore\Incipire.Mobile.Android\Incipire.Mobile.Droid.csproj">
+      <Project>{DADAF22F-B926-4ECF-B6F4-6ED157EC75F1}</Project>
+      <Name>Incipire.Mobile.Droid</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />

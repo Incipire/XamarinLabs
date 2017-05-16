@@ -31,6 +31,15 @@ namespace Incipire.Mobile.Primitives
             get { return (Brush)GetValue(FillProperty); }
             set { SetValue(FillProperty, value); }
         }
+
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(WidthRequest, HeightRequest);
+        }
+        protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
+        {
+            return new SizeRequest(new Size(WidthRequest, HeightRequest));
+        }
     }
 
 }

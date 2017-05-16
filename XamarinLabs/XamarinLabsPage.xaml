@@ -5,5 +5,10 @@
     xmlns:local="clr-namespace:XamarinLabs" 
     xmlns:Core="clr-namespace:Incipire.Mobile.Primitives;assembly=Incipire.MobileCore"
     x:Class="XamarinLabs.XamarinLabsPage">
-    <Core:Ellipse HeightRequest="80" WidthRequest="20"/>
+    <Core:Ellipse 
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        HeightRequest="80" 
+        WidthRequest="20" 
+        x:Name="ellipse"/>
 </ContentPage>
