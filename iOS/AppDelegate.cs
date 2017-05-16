@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Incipire.Mobile.iOS.Primitives;
 using UIKit;
 
 namespace XamarinLabs.iOS
@@ -12,6 +13,7 @@ namespace XamarinLabs.iOS
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            EllipseRenderer.Initialize();
             global::Xamarin.Forms.Forms.Init();
 
             // Code for starting up the Xamarin Test Cloud Agent

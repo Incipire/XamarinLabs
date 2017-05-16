@@ -106,6 +106,10 @@
       <Project>{21408F89-64F1-41BA-85BF-C86CCB5C68AB}</Project>
       <Name>XamarinLabs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lib\Incipire.MobileCore\Incipire.Mobile.iOS\Incipire.Mobile.iOS.csproj">
+      <Project>{C0A2F396-0B4F-4F2E-B4D2-2BDE421246A8}</Project>
+      <Name>Incipire.Mobile.iOS</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
