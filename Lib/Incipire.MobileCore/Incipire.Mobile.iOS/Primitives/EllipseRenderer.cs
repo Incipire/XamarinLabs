@@ -41,11 +41,19 @@ namespace Incipire.Mobile.iOS.Primitives
         {
             var context = UIGraphics.GetCurrentContext();
             context.ClearRect(rect);
-			rect.Height = new nfloat(ellipse.HeightRequest);
-			rect.Width = new nfloat(ellipse.WidthRequest);
 			context.AddEllipseInRect(rect);
-            context.SetFillColor(new CGColor(1,0,0));
+            ApplyBrush(ellipse.Fill, context);
             context.FillPath();
+        }
+
+        void ApplyBrush(Brush fill, CGContext context)
+        {
+            var brush = fill as SolidColorBrush;
+            if (brush!=null)
+            {
+                var color = brush.Color.ToCGColor();
+                context.SetFillColor(color);
+            }
         }
     }
 }

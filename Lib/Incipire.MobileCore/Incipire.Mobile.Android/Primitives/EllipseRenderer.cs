@@ -37,10 +37,19 @@ namespace Incipire.Mobile.Droid.Primitives
             //Step one, get the damn thing to draw.
             base.OnDraw(canvas);
             var paint = new Paint();
+            ApplyBrush(_ellipse.Fill, paint);
+            RectF oval1 = new RectF(0, 0, canvas.Width, canvas.Height);
+            canvas.DrawOval(oval1, paint);
+        }
+
+        private static void ApplyBrush(Brush brush, Paint paint)
+        {
             paint.SetStyle(Paint.Style.Fill);
-            paint.Color = new Color(255, 0, 0);
-			RectF oval1 = new RectF(0, 0, canvas.Width, canvas.Height);
-			canvas.DrawOval(oval1, paint);
+            var fill = brush as SolidColorBrush;
+            if (fill!=null)
+            {
+                paint.Color = fill.Color.ToAndroid();
+            }
         }
     }
 }

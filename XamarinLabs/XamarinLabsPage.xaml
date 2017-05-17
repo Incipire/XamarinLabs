@@ -9,6 +9,10 @@
         HorizontalOptions="Center"
         VerticalOptions="Center"
         HeightRequest="80" 
-        WidthRequest="20" 
-        x:Name="ellipse"/>
+        WidthRequest="40" 
+        x:Name="ellipse">
+        <Core:Ellipse.Fill>
+            <Core:SolidColorBrush Color="Blue"/>
+        </Core:Ellipse.Fill>
+    </Core:Ellipse>
 </ContentPage>

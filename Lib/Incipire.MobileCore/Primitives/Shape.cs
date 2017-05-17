@@ -1,5 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace Incipire.Mobile.Primitives
 {
@@ -32,14 +31,6 @@ namespace Incipire.Mobile.Primitives
             set { SetValue(FillProperty, value); }
         }
 
-        protected override void OnSizeAllocated(double width, double height)
-        {
-            base.OnSizeAllocated(WidthRequest, HeightRequest);
-        }
-        protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
-        {
-            return new SizeRequest(new Size(WidthRequest, HeightRequest));
-        }
     }
 
 }
