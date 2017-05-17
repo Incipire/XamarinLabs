@@ -1,12 +1,11 @@
-﻿using System;
-using CoreGraphics;
+﻿using CoreGraphics;
 using Incipire.Mobile.iOS.Primitives;
 using Incipire.Mobile.Primitives;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(Ellipse),typeof(EllipseRenderer))]
+[assembly: ExportRenderer(typeof(Ellipse), typeof(EllipseRenderer))]
 namespace Incipire.Mobile.iOS.Primitives
 {
     public class EllipseRenderer:ViewRenderer<Ellipse, EllipseView>
@@ -18,9 +17,9 @@ namespace Incipire.Mobile.iOS.Primitives
             base.OnElementChanged(e);
             if(e.NewElement!=null)
             {
-				_view = new EllipseView(e.NewElement);
-				SetNativeControl(_view);
-			}
+                _view = new EllipseView(e.NewElement);
+                SetNativeControl(_view);
+            }
         }
 
         public static void Initialize(){}
@@ -39,20 +38,50 @@ namespace Incipire.Mobile.iOS.Primitives
 
         public override void Draw(CGRect rect)
         {
-            var context = UIGraphics.GetCurrentContext();
-            context.ClearRect(rect);
-			context.AddEllipseInRect(rect);
-            ApplyBrush(ellipse.Fill, context);
-            context.FillPath();
+            using (var context = UIGraphics.GetCurrentContext())
+            {
+                //erase the view (renders black by default)
+                context.ClearRect(rect);
+
+                rect = CalculateBoundaries(rect);
+                context.AddEllipseInRect(rect);
+                context.SetLineWidth(ellipse.StrokeWidth);
+                ApplyStroke(ellipse.Stroke, context);
+                ApplyFill(ellipse.Fill, context);
+                context.DrawPath(CGPathDrawingMode.FillStroke);
+            }
         }
 
-        void ApplyBrush(Brush fill, CGContext context)
+        CGRect CalculateBoundaries(CGRect rect)
         {
-            var brush = fill as SolidColorBrush;
-            if (brush!=null)
+            //Get the strokewidth as set by the client
+            //Also get the offset (can we cheat and make this a bitshift?
+            var strokeWidth = ellipse.StrokeWidth;
+            var offset = strokeWidth / 2;
+
+            //Adjust the drawing rect to accomodate the stroke.
+            rect.Width -= strokeWidth;
+            rect.Height -= strokeWidth;
+            rect.X += offset;
+            rect.Y += offset;
+            return rect;
+        }
+
+        private void ApplyStroke(Brush stroke, CGContext context)
+        {
+            if (stroke is SolidColorBrush brush)
             {
-                var color = brush.Color.ToCGColor();
-                context.SetFillColor(color);
+                var color = brush.Color.ToUIColor();
+                color.SetStroke();
+            }
+        }
+
+        void ApplyFill(Brush fill, CGContext context)
+        {
+            if (fill is SolidColorBrush brush)
+            {
+                var color = brush.Color.ToUIColor();
+                color.SetFill();
             }
         }
     }

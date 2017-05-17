@@ -31,6 +31,19 @@ namespace Incipire.Mobile.Primitives
             set { SetValue(FillProperty, value); }
         }
 
+        public static readonly BindableProperty StrokeWidthProperty =
+            BindableProperty.Create(
+                nameof(StrokeWidth),
+                typeof(float),
+                typeof(Shape),
+                1.0F
+            );
+
+        public float StrokeWidth
+        {
+            get { return (float)GetValue(StrokeWidthProperty); }
+            set { SetValue(StrokeWidthProperty, value); }
+        }
     }
 
 }

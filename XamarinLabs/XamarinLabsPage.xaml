@@ -8,11 +8,15 @@
     <Core:Ellipse 
         HorizontalOptions="Center"
         VerticalOptions="Center"
-        HeightRequest="80" 
-        WidthRequest="40" 
+        HeightRequest="400" 
+        WidthRequest="200" 
+        StrokeWidth="10"
         x:Name="ellipse">
         <Core:Ellipse.Fill>
-            <Core:SolidColorBrush Color="Blue"/>
+            <Core:SolidColorBrush Color="Green"/>
         </Core:Ellipse.Fill>
+        <Core:Ellipse.Stroke>
+            <Core:SolidColorBrush Color="Olive"/>
+        </Core:Ellipse.Stroke>
     </Core:Ellipse>
 </ContentPage>
