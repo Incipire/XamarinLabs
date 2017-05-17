@@ -36,7 +36,7 @@ namespace Incipire.Mobile.Primitives
                 nameof(StrokeWidth),
                 typeof(float),
                 typeof(Shape),
-                1.0F
+                0.0F
             );
 
         public float StrokeWidth
