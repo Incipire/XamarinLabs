@@ -12,8 +12,11 @@
         WidthRequest="200" 
         StrokeWidth="10"
         x:Name="ellipse">
+        <Core:Ellipse.GestureRecognizers>
+            <TapGestureRecognizer Tapped="Handle_Tapped"/>
+        </Core:Ellipse.GestureRecognizers>
         <Core:Ellipse.Fill>
-            <Core:SolidColorBrush Color="Green"/>
+            <Core:SolidColorBrush Color="Red"/>
         </Core:Ellipse.Fill>
         <Core:Ellipse.Stroke>
             <Core:SolidColorBrush Color="Olive"/>

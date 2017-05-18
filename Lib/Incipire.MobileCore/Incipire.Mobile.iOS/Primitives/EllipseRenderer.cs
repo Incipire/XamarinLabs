@@ -1,4 +1,6 @@
-﻿using CoreGraphics;
+﻿using System;
+using System.Collections.Generic;
+using CoreGraphics;
 using Incipire.Mobile.iOS.Primitives;
 using Incipire.Mobile.Primitives;
 using UIKit;
@@ -12,14 +14,31 @@ namespace Incipire.Mobile.iOS.Primitives
     {
         private EllipseView _view;
 
+        public override UIDynamicItemCollisionBoundsType CollisionBoundsType
+        {
+            get
+            {
+                return UIDynamicItemCollisionBoundsType.Ellipse;
+            }
+        }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Ellipse> e)
         {
             base.OnElementChanged(e);
-            if(e.NewElement!=null)
+            if(e.OldElement!=null||Element==null)
             {
-                _view = new EllipseView(e.NewElement);
-                SetNativeControl(_view);
+                return;
             }
+            _view = new EllipseView(Element);
+            SetNativeControl(_view);
+            _view.UserInteractionEnabled = true;
+            _view.AddGestureRecognizer(new UITapGestureRecognizer(() => Console.WriteLine("Tapped")));
+        }
+
+        protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            base.OnElementPropertyChanged(sender, e);
+            Console.WriteLine(e.PropertyName);
         }
 
         public static void Initialize(){}
@@ -27,14 +46,43 @@ namespace Incipire.Mobile.iOS.Primitives
 
     public class EllipseView: UIView
     {
-        readonly Ellipse ellipse;
+        readonly Ellipse _ellipse;
+
+        public override UIDynamicItemCollisionBoundsType CollisionBoundsType
+        {
+            get
+            {
+                return UIDynamicItemCollisionBoundsType.Ellipse;
+            }
+        }
+
 
         public EllipseView(Ellipse ellipse)
         {
-            this.ellipse = ellipse;
+            this._ellipse = ellipse;
             BackgroundColor = UIColor.Clear;
+
         }
 
+        public override bool PointInside(CGPoint point, UIEvent uievent)
+        {
+            byte[] pixel = new byte[4];
+            var colorspace = CGColorSpace.CreateDeviceRGB();
+            using(
+                var context = new CGBitmapContext(
+                    pixel,
+                    1,
+                    1,
+                    8,
+                    4,
+                    colorspace,
+                    CGImageAlphaInfo.PremultipliedLast))
+			{
+				context.TranslateCTM(-point.X, -point.Y);
+                Layer.RenderInContext(context);
+			}
+            return pixel[3]!=0;
+        }
 
         public override void Draw(CGRect rect)
         {
@@ -45,9 +93,9 @@ namespace Incipire.Mobile.iOS.Primitives
 
                 rect = CalculateBoundaries(rect);
                 context.AddEllipseInRect(rect);
-                context.SetLineWidth(ellipse.StrokeWidth);
-                ApplyStroke(ellipse.Stroke, context);
-                ApplyFill(ellipse.Fill, context);
+                context.SetLineWidth(_ellipse.StrokeWidth);
+                ApplyStroke(_ellipse.Stroke, context);
+                ApplyFill(_ellipse.Fill, context);
                 context.DrawPath(CGPathDrawingMode.FillStroke);
             }
         }
@@ -56,7 +104,7 @@ namespace Incipire.Mobile.iOS.Primitives
         {
             //Get the strokewidth as set by the client
             //Also get the offset (can we cheat and make this a bitshift?
-            var strokeWidth = ellipse.StrokeWidth;
+            var strokeWidth = _ellipse.StrokeWidth;
             var offset = strokeWidth / 2;
 
             //Adjust the drawing rect to accomodate the stroke.

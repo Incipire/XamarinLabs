@@ -1,4 +1,4 @@
-﻿using Xamarin.Forms;
+﻿﻿using Xamarin.Forms;
 
 namespace XamarinLabs
 {
@@ -7,7 +7,11 @@ namespace XamarinLabs
         public XamarinLabsPage()
         {
             InitializeComponent();
-            ellipse.RotateTo(360, 2000);
         }
+
+        void Handle_Tapped(object sender, System.EventArgs e)
+        {
+			ellipse.RotateTo(360, 2000);
+		}
     }
 }
