@@ -32,9 +32,24 @@ namespace Incipire.Mobile.Droid.Primitives
             _ellipse = ellipse;
         }
 
+        public override bool OnTouchEvent(MotionEvent e)
+        {
+			Matrix inverse = new Matrix();
+			Matrix.Invert(inverse);
+			float[] touchPoint = { e.GetX(), e.GetY() };
+			inverse.MapPoints(touchPoint);
+			var xCoord = (int)touchPoint[0];
+			var yCoord = (int)touchPoint[1];
+            Bitmap b = Bitmap.CreateBitmap(Width, Height, Bitmap.Config.Argb8888);
+			Canvas c = new Canvas(b);
+			Draw(c);
+			var colorTouched = b.GetPixel(xCoord, yCoord);
+
+			return Color.GetAlphaComponent(colorTouched) != 0 ? base.OnTouchEvent(e) : true;
+        }
+
         protected override void OnDraw(Canvas canvas)
         {
-            //Step one, get the damn thing to draw.
             base.OnDraw(canvas);
             var paint = new Paint();
             var strokeWidth = _ellipse.StrokeWidth;

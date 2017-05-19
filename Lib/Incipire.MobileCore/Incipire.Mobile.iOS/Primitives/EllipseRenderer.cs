@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using CoreGraphics;
-using Incipire.Mobile.iOS.Primitives;
 using Incipire.Mobile.Primitives;
 using UIKit;
-using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(Ellipse), typeof(EllipseRenderer))]
 namespace Incipire.Mobile.iOS.Primitives
 {
     public class EllipseRenderer:ViewRenderer<Ellipse, EllipseView>
@@ -31,7 +27,6 @@ namespace Incipire.Mobile.iOS.Primitives
             }
             _view = new EllipseView(Element);
             SetNativeControl(_view);
-            _view.UserInteractionEnabled = true;
             _view.AddGestureRecognizer(new UITapGestureRecognizer(() => Console.WriteLine("Tapped")));
         }
 
@@ -56,7 +51,6 @@ namespace Incipire.Mobile.iOS.Primitives
             }
         }
 
-
         public EllipseView(Ellipse ellipse)
         {
             this._ellipse = ellipse;
@@ -64,6 +58,18 @@ namespace Incipire.Mobile.iOS.Primitives
 
         }
 
+        /// <summary>
+        /// Determines if a Point is inside the bounds of the View.
+        /// </summary>
+        /// <returns><c>true</c>, if the point is inside the View, <c>false</c>
+        /// otherwise.</returns>
+        /// <param name="point">Point.</param>
+        /// <param name="uievent">Uievent.</param>
+        /// <remarks>
+        /// Uses transparency to determine if the point is in bounds. Thus it
+        /// could return a false negative if a point within bounds is 
+        /// transparent.
+        /// </remarks>
         public override bool PointInside(CGPoint point, UIEvent uievent)
         {
             byte[] pixel = new byte[4];

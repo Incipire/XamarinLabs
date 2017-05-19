@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+using Incipire.Mobile.iOS.Primitives;
+using Incipire.Mobile.Primitives;
+using Xamarin.Forms;
 
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
@@ -13,6 +15,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
+[assembly: ExportRenderer(typeof(Ellipse), typeof(EllipseRenderer))]
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.
