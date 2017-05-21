@@ -1,14 +1,22 @@
 ﻿using System;
+using System.Linq;
 using CoreGraphics;
 using Incipire.Mobile.Primitives;
 using UIKit;
 using Xamarin.Forms.Platform.iOS;
+using Xamarin.Forms;
 
 namespace Incipire.Mobile.iOS.Primitives
 {
     public class EllipseRenderer:ViewRenderer<Ellipse, EllipseView>
     {
         private EllipseView _view;
+        //SendTapped method on TapGestureRecognizer is internal so let's fix that.
+        private static readonly System.Reflection.MethodInfo _tappedMethod=
+                        typeof(TapGestureRecognizer).GetMethod(
+                            "SendTapped",
+                            System.Reflection.BindingFlags.NonPublic|
+                            System.Reflection.BindingFlags.Instance);
 
         public override UIDynamicItemCollisionBoundsType CollisionBoundsType
         {
@@ -16,6 +24,11 @@ namespace Incipire.Mobile.iOS.Primitives
             {
                 return UIDynamicItemCollisionBoundsType.Ellipse;
             }
+        }
+
+        public override bool PointInside(CGPoint point, UIEvent uievent)
+        {
+            return _view.PointInside(point, uievent);
         }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Ellipse> e)
@@ -28,12 +41,26 @@ namespace Incipire.Mobile.iOS.Primitives
             _view = new EllipseView(Element);
             SetNativeControl(_view);
             _view.AddGestureRecognizer(new UITapGestureRecognizer(() => Console.WriteLine("Tapped")));
+            InitializeGestureRecognizers(Element);
+        }
+
+        private void InitializeGestureRecognizers(Ellipse element)
+        {
+            foreach (var recognizer in element.GestureRecognizers)
+            {
+                if(recognizer is TapGestureRecognizer tapRecognizer)
+                {
+                       var uiTapRecognizer= new UITapGestureRecognizer(
+                            (obj) => _tappedMethod.Invoke(tapRecognizer, new object[] { element }));
+                    uiTapRecognizer.NumberOfTapsRequired = (nuint)tapRecognizer.NumberOfTapsRequired;
+                    _view.AddGestureRecognizer(uiTapRecognizer);
+                }
+            }
         }
 
         protected override void OnElementPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            Console.WriteLine(e.PropertyName);
         }
 
         public static void Initialize(){}
@@ -53,10 +80,11 @@ namespace Incipire.Mobile.iOS.Primitives
 
         public EllipseView(Ellipse ellipse)
         {
-            this._ellipse = ellipse;
+            _ellipse = ellipse;
             BackgroundColor = UIColor.Clear;
-
+            UserInteractionEnabled = true;
         }
+
 
         /// <summary>
         /// Determines if a Point is inside the bounds of the View.
@@ -83,10 +111,10 @@ namespace Incipire.Mobile.iOS.Primitives
                     4,
                     colorspace,
                     CGImageAlphaInfo.PremultipliedLast))
-			{
-				context.TranslateCTM(-point.X, -point.Y);
+            {
+                context.TranslateCTM(-point.X, -point.Y);
                 Layer.RenderInContext(context);
-			}
+            }
             return pixel[3]!=0;
         }
 
@@ -98,11 +126,14 @@ namespace Incipire.Mobile.iOS.Primitives
                 context.ClearRect(rect);
 
                 rect = CalculateBoundaries(rect);
+                context.SaveState();
                 context.AddEllipseInRect(rect);
+                ApplyFill(_ellipse.Fill, context, rect);
+                context.RestoreState();
                 context.SetLineWidth(_ellipse.StrokeWidth);
-                ApplyStroke(_ellipse.Stroke, context);
-                ApplyFill(_ellipse.Fill, context);
-                context.DrawPath(CGPathDrawingMode.FillStroke);
+                context.AddEllipseInRect(rect);
+                ApplyStroke(_ellipse.Stroke, context, rect);
+                context.DrawPath(CGPathDrawingMode.Stroke);
             }
         }
 
@@ -121,21 +152,37 @@ namespace Incipire.Mobile.iOS.Primitives
             return rect;
         }
 
-        private void ApplyStroke(Brush stroke, CGContext context)
+        private void ApplyStroke(Brush stroke, CGContext context, CGRect rect)
         {
-            if (stroke is SolidColorBrush brush)
+            if (stroke is SolidColorBrush solidBrush)
             {
-                var color = brush.Color.ToUIColor();
+                var color = solidBrush.Color.ToUIColor();
                 color.SetStroke();
             }
         }
 
-        void ApplyFill(Brush fill, CGContext context)
+        void ApplyFill(Brush fill, CGContext context, CGRect rect)
         {
             if (fill is SolidColorBrush brush)
             {
                 var color = brush.Color.ToUIColor();
                 color.SetFill();
+                context.DrawPath(CGPathDrawingMode.Fill);
+            }
+            if (fill is GradientBrush gradientBrush)
+            {
+                var colors = gradientBrush.ColorStops.Select(cs => cs.Color.ToCGColor()).ToArray();
+                var stops = gradientBrush.ColorStops.Select(cs => (nfloat)cs.Postion).ToArray();
+                using (var colorSpace = CGColorSpace.CreateGenericRgb())
+                {
+                    using (var gradient = new CGGradient(colorSpace, colors, stops))
+                    {
+                        var startPoint = new CGPoint(rect.GetMidX(), rect.GetMinY());
+                        var endPoint = new CGPoint(rect.GetMidX(), rect.GetMaxY());
+                        context.Clip();
+                        context.DrawLinearGradient(gradient, startPoint, endPoint, CGGradientDrawingOptions.None);
+                    }
+                }
             }
         }
     }

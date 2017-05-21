@@ -16,7 +16,14 @@
             <TapGestureRecognizer Tapped="Handle_Tapped"/>
         </Core:Ellipse.GestureRecognizers>
         <Core:Ellipse.Fill>
-            <Core:SolidColorBrush Color="Red"/>
+            <!--<Core:SolidColorBrush Color="Red"/>-->
+            <Core:GradientBrush>
+                <Core:GradientBrush.ColorStops>
+                    <Core:ColorStop Color="Red" Postion="0.0"/>
+                    <Core:ColorStop Color="White" Postion="0.5"/>
+                    <Core:ColorStop Color="Blue" Postion="1.0"/>
+                </Core:GradientBrush.ColorStops>
+            </Core:GradientBrush>
         </Core:Ellipse.Fill>
         <Core:Ellipse.Stroke>
             <Core:SolidColorBrush Color="Olive"/>

@@ -9,9 +9,15 @@ namespace XamarinLabs
             InitializeComponent();
         }
 
-        void Handle_Tapped(object sender, System.EventArgs e)
+        async void Handle_Tapped(object sender, System.EventArgs e)
         {
-			ellipse.RotateTo(360, 2000);
-		}
+            //This check prevents the animation from crashing if the user taps
+            //twice.
+            if (!ellipse.AnimationIsRunning("RotateTo"))
+            {
+                await ellipse.RotateTo(360, 2000);
+                await ellipse.RotateTo(0, 1);
+            }
+        }
     }
 }
