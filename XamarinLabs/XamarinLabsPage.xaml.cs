@@ -1,4 +1,5 @@
 ﻿﻿using Xamarin.Forms;
+using XamarinLabs.Views;
 
 namespace XamarinLabs
 {
@@ -9,15 +10,9 @@ namespace XamarinLabs
             InitializeComponent();
         }
 
-        async void Handle_Tapped(object sender, System.EventArgs e)
+        void Handle_Clicked(object sender, System.EventArgs e)
         {
-            //This check prevents the animation from crashing if the user taps
-            //twice.
-            if (!ellipse.AnimationIsRunning("RotateTo"))
-            {
-                await ellipse.RotateTo(360, 2000);
-                await ellipse.RotateTo(0, 1);
-            }
+            Navigation.PushAsync(new EllipseDemo());
         }
     }
 }

@@ -8,7 +8,7 @@ namespace XamarinLabs
         {
             InitializeComponent();
 
-            MainPage = new XamarinLabsPage();
+            MainPage = new NavigationPage(new XamarinLabsPage());
         }
 
         protected override void OnStart()
